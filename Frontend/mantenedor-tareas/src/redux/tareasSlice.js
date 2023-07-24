@@ -1,17 +1,12 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-// Acciones
-const FETCH_TAREAS_SUCCESS = 'tareas/fetchTareasSuccess';
-const ADD_TAREA_SUCCESS = 'tareas/addTareaSuccess';
-const UPDATE_TAREA_SUCCESS = 'tareas/updateTareaSuccess';
-const DELETE_TAREA_SUCCESS = 'tareas/deleteTareaSuccess';
 
 // Thunks
 export const fetchTareas = createAsyncThunk(
   'tareas/fetchTareas',
   async () => {
     const response = await axios.get('http://localhost:8080/api/tareas');
+    console.log(response.data);
     return response.data;
   }
 );
@@ -40,22 +35,50 @@ export const deleteTarea = createAsyncThunk(
   }
 );
 
-// Reducer
-const initialState = [];
-
-const tareasReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_TAREAS_SUCCESS:
-      return action.payload;
-    case ADD_TAREA_SUCCESS:
-      return [...state, action.payload];
-    case UPDATE_TAREA_SUCCESS:
-      return state.map(tarea => tarea.id === action.payload.id ? action.payload : tarea);
-    case DELETE_TAREA_SUCCESS:
-      return state.filter(tarea => tarea.id !== action.payload);
-    default:
-      return state;
+export const updateDescripcionTarea = createAsyncThunk(
+  'tareas/updateDescripcion',
+  async (tarea, { dispatch }) => {
+    const { id, descripcion, vigente, fechaCreacion } = tarea;
+    const response = await axios.put(`http://localhost:8080/api/tareas/${id}`, {
+      id, 
+      descripcion,
+      vigente,
+      fechaCreacion
+    });
+    dispatch(fetchTareas());
+    return response.data;
   }
-}
+);
 
-export default tareasReducer;
+// Reducer
+const tareasSlice = createSlice({
+  name: 'tareas',
+  initialState: [],
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTareas.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(addTarea.fulfilled, (state, action) => {
+        state.push(action.payload);
+      })
+      .addCase(updateTarea.fulfilled, (state, action) => {
+        const index = state.findIndex(tarea => tarea.id === action.payload.id);
+        if (index !== -1) {
+          state[index] = action.payload;
+        }
+      })
+      .addCase(updateDescripcionTarea.fulfilled, (state, action) => {
+        const index = state.findIndex(tarea => tarea.id === action.payload.id);
+        if (index !== -1) {
+          state[index].descripcion = action.payload.descripcion;
+        }
+      })
+      .addCase(deleteTarea.fulfilled, (state, action) => {
+        return state.filter(tarea => tarea.id !== action.payload);
+      });
+  },
+});
+
+export default tareasSlice.reducer;

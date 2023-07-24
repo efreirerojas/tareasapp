@@ -1,7 +1,9 @@
 package com.efreire.mantenedordetareas.domain.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,8 +22,7 @@ public class TareaModel {
     private String descripcion;
 
     @ApiModelProperty(notes = "Fecha de creación de la tarea, generada automáticamente al crear la tarea")
-    @Field("fechaCreacion")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @CreatedDate
     private Date fechaCreacion;
 
     @ApiModelProperty(notes = "Estado de la tarea, true si la tarea está vigente, false si no lo está")

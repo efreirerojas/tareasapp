@@ -5,6 +5,7 @@ import com.efreire.mantenedordetareas.gateway.TareaGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +32,9 @@ public class TareaService {
     public TareaModel saveTarea(TareaModel tarea) {
         if (tarea.getId() == null) {
             tarea.setId(counterService.getNextSequence("tarea"));
+        }
+        if (tarea.getFechaCreacion() == null) {
+            tarea.setFechaCreacion(new Date());
         }
         return gateway.save(tarea);
     }

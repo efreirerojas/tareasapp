@@ -35,7 +35,7 @@ class TareaServiceTest {
 
     @Test
     void shouldGetAllTareas() {
-        TareaModel tareaModel = new TareaModel(1L, "Test", null, true);
+        TareaModel tareaModel = new TareaModel(1L, "Test", true);
         when(tareaGateway.findAll()).thenReturn(Arrays.asList(tareaModel));
         List<TareaModel> result = tareaService.getAllTareas();
         assertEquals(1, result.size());
@@ -44,7 +44,7 @@ class TareaServiceTest {
 
     @Test
     void shouldSaveNewTarea() {
-        TareaModel tareaModel = new TareaModel(null, "Test", null, true);
+        TareaModel tareaModel = new TareaModel(null, "Test",  true);
         when(counterService.getNextSequence("tarea")).thenReturn(1L);
         when(tareaGateway.save(any(TareaModel.class))).thenReturn(tareaModel);
 
@@ -59,7 +59,7 @@ class TareaServiceTest {
     @Test
     void shouldGetTareaById() {
         Long id = 1L;
-        TareaModel tareaModel = new TareaModel(id, "Test", null, true);
+        TareaModel tareaModel = new TareaModel(id, "Test", true);
         when(tareaGateway.findById(id)).thenReturn(tareaModel);
 
         TareaModel result = tareaService.getTareaById(id);
