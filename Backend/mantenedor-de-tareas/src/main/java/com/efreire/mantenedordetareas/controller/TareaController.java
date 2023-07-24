@@ -17,6 +17,7 @@ import java.util.List;
 @Tag(name = "Mantenedor de Tareas", description = "Mantenedor dedicado a la gestión de Tareas pendientes y/o realizadas.")
 @RestController
 @RequestMapping("/api/tareas")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TareaController {
 
     @Autowired
