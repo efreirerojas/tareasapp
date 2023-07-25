@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateTarea, deleteTarea } from '../redux/tareasSlice';
 import { format, parseISO } from 'date-fns';
@@ -9,7 +9,7 @@ import { Form } from 'react-bootstrap';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Tarea = ({ tarea }) => {
+const Tarea = memo(({ tarea }) => {
   const dispatch = useDispatch();
 
   const handleComplete = () => {
@@ -48,6 +48,6 @@ const Tarea = ({ tarea }) => {
       </td>
     </tr>
   );
-};
+});
 
 export default Tarea;

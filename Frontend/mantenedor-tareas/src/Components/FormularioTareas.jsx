@@ -38,7 +38,6 @@ const FormularioTareas = () => {
                 required
                 type="text"
                 placeholder="Ingrese tarea a Realizar"
-                defaultValue=""
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
               />
