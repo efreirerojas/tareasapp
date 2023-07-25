@@ -27,11 +27,11 @@ test('renders Tarea component', () => {
   expect(getByText('Test tarea')).toBeInTheDocument();
 });
 
-test('can mark a task as completed', () => {
+test('cuando marca el check en no valida', () => {
     const tarea = {
       id: 1,
       descripcion: 'Test tarea',
-      vigente: true,
+      vigente: false,
       fechaCreacion: new Date().toISOString(),
     };
     

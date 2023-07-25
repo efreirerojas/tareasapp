@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,7 +36,7 @@ class TareaServiceTest {
 
     @Test
     void shouldGetAllTareas() {
-        TareaModel tareaModel = new TareaModel(1L, "Test", true);
+        TareaModel tareaModel = new TareaModel(1L, "Test",new Date(), true);
         when(tareaGateway.findAll()).thenReturn(Arrays.asList(tareaModel));
         List<TareaModel> result = tareaService.getAllTareas();
         assertEquals(1, result.size());
@@ -44,7 +45,7 @@ class TareaServiceTest {
 
     @Test
     void shouldSaveNewTarea() {
-        TareaModel tareaModel = new TareaModel(null, "Test",  true);
+        TareaModel tareaModel = new TareaModel(null, "Test",new Date(),  true);
         when(counterService.getNextSequence("tarea")).thenReturn(1L);
         when(tareaGateway.save(any(TareaModel.class))).thenReturn(tareaModel);
 
@@ -59,7 +60,7 @@ class TareaServiceTest {
     @Test
     void shouldGetTareaById() {
         Long id = 1L;
-        TareaModel tareaModel = new TareaModel(id, "Test", true);
+        TareaModel tareaModel = new TareaModel(id, "Test",new Date(), true);
         when(tareaGateway.findById(id)).thenReturn(tareaModel);
 
         TareaModel result = tareaService.getTareaById(id);
